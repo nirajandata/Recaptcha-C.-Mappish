@@ -6,5 +6,3 @@ package main
 //3d array of picking element and setting them in string like nononooo(n for no, o for yes
 //json api to send that image;
 //
-func main(){
-}
