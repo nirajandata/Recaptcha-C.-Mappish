@@ -1,8 +1,8 @@
-human,https://thispersondoesnotexist.com
-cat,https://thiscatdoesnotexist.com/
-horse,https://thishorsedoesnotexist.com
-animegirl,https://www.thiswaifudoesnotexist.net/
-house,https://thisrentaldoesnotexist.com/img-new/img2.jpg
-art,https://thisartworkdoesnotexist.com/
-mountain,https://thismountaindoesnotexist.com/
+human
+cat
+horse
+animegirl
+house
+art
+mountain
 
