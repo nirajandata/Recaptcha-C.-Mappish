@@ -41,11 +41,9 @@ func imageSend(w http.ResponseWriter, r *http.Request){
 		problist[i][x]=target
 	}
 	var api Images
-	link:="https://something.com/"
 	for( i:=0;i<n;i++){
 		for(j:=0;j<n;j++){
-		text:=link+names[problist[i][j]]
-		api.urls=append(api.urls,text)
+		api.urls=append(api.urls,parser(names[problist[i][j]]))
 		}
 	}
 	json.NewEncoder(w).Encode(api)

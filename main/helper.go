@@ -4,7 +4,7 @@ import (
   "encoding/json"
 )
 
-func test(query string){
+func parser(query string)[]string{
   url="https://api.unsplash.com/search/photos?query="+query+"&per_page=6&client_id=gK52De2Tm_dL5o1IXKa9FROBAJ-LIYqR41xBdlg3X2k"
   jsondata,err=http.Get(url)
   if(err!=nil){
@@ -16,5 +16,8 @@ func test(query string){
   var imglink []string
   for _,value:=range data{
     results:=data["results"].(map[string]interface{})
+    urls:=results["urls"].(map[string]interface{})
+    imglink=append(imglink,urls["raw"])
   }
+  return imglink
 }
