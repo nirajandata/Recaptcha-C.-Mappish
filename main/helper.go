@@ -2,21 +2,23 @@ package main
 
 import (
   "encoding/json"
+  "net/http"
+  "net/http/httputil"
 )
 
-func parser(query string)[]string{
-  url="https://api.unsplash.com/search/photos?query="+query+"&per_page=6&client_id=gK52De2Tm_dL5o1IXKa9FROBAJ-LIYqR41xBdlg3X2k"
-  jsondata,err=http.Get(url)
-  if(err!=nil){
+func parser(query string, pg int) []string{
+  url:="https://api.unsplash.com/search/photos?query="+query+"&per_page="+string(pg)+"&client_id=gK52De2Tm_dL5o1IXKa9FROBAJ-LIYqR41xBdlg3X2k"
+  jsondatas,err:=http.Get(url)
+  jsondata,errs:=httputil.DumpResponse(jsondatas,true)
+  if(err!=nil || errs!=nil){
     print("error")
-    return
   }
-  var data []mp[string] inferface{}
+	var data []map[string]interface{}
   json.Unmarshal([]byte(jsondata),&data)
   var imglink []string
   for _,value:=range data{
-    results:=data["results"].(map[string]interface{})
-    urls:=results["urls"].(map[string]interface{})
+    results:=value["results"].(map[string]interface{})
+    urls:=results["urls"].(map[string]string)
     imglink=append(imglink,urls["raw"])
   }
   return imglink

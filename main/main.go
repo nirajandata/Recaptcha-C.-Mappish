@@ -5,14 +5,13 @@ import (
 	"net/http"
 )
 type Images struct{
-	url []string
+	urls []string
 }
 
 func main(){
-
+	initial()
 	fs:=http.FileServer(http.Dir("pages/"))
 	http.Handle("/static/",http.StripPrefix("/static/",fs))
-	http.HandleFunc("/",home)
-	http.HandleFunc("/create",imageCreate)
+	http.HandleFunc("/",imageCreate)
 	http.ListenAndServe(":8080",nil)
 }

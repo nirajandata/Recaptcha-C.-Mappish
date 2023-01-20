@@ -7,9 +7,12 @@ import (
 	"log"
 	"math/rand"
 	"encoding/json"
+	"net/http"
 )
-names:=[]int{}
-func init(){
+
+var names []string
+
+func initial(){
 	file,err:=os.Open("class.txt");
 	if(err!=nil){
 	log.Fatal(err);
@@ -18,16 +21,14 @@ func init(){
 
 	scanner:=bufio.NewScanner(file)
 	for scanner.Scan(){
-		lines:=scanner.Text()
-		lines=strings.TrimSpace(lines)
+		line:=scanner.Text()
+		lines:=strings.TrimSpace(line)
 		names=append(names,lines)
 	}
-	//this is the 2d list for 3x3 target-img probability filling 
-
 }	
-func imageSend(w http.ResponseWriter, r *http.Request){
+func imageCreate(w http.ResponseWriter, r *http.Request){
 	n:=3
-	problist:=[n][n]int{}
+	problist:=[3][3]int{}
 	lsize:=len(names)
 	target:=rand.Intn(lsize)
 	for i:=0;i<n;i++{
@@ -36,14 +37,23 @@ func imageSend(w http.ResponseWriter, r *http.Request){
 		}
 	}
 	//  3 target-img of each row in random column
-	for i:=0;i<n;i++){
+	for i:=0;i<n;i++ {
 		x:=rand.Intn(n)
 		problist[i][x]=target
 	}
 	var api Images
-	for( i:=0;i<n;i++){
-		for(j:=0;j<n;j++){
-		api.urls=append(api.urls,parser(names[problist[i][j]]))
+	targetImg:=parser(names[target],3)
+	tcount:=0
+	for i:=0;i<n;i++ {
+		for j:=0;j<n;j++{
+		text:=names[problist[i][j]]
+		if(problist[i][j]==target){
+			api.urls=append(api.urls,targetImg[tcount])
+			tcount+=1
+		} else{
+			randomImg:=parser(text,1)
+			api.urls=append(api.urls,randomImg[0])
+		}
 		}
 	}
 	json.NewEncoder(w).Encode(api)
