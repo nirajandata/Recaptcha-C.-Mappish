@@ -8,19 +8,18 @@ import (
   "os"
   "log"
 )
-//todo : to add environmental variable
-
+func cerr(err error){
+  if(err!=nil){
+    log.Fatal(err)
+  }
+}
 func parser(query string, pg int) []string{
   cid:=os.Getenv("CID")
   url:="https://api.unsplash.com/search/photos?query="+query+"&per_page="+string(pg)+"&client_id="+cid
   jsondatas,err:=http.Get(url)
-  if(err!=nil){
-    log.Fatal(err)
-  }
+  cerr(err)
   jsondata,errs:=httputil.DumpResponse(jsondatas,true)
-  if(errs!=nil){
-    log.Fatal(err)
-  }
+  cerr(err)
 	var data []map[string]interface{}
   json.Unmarshal([]byte(jsondata),&data)
   var imglink []string
