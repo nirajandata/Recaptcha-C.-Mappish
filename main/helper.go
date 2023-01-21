@@ -5,14 +5,21 @@ import (
   "net/http"
   "net/http/httputil"
   "math/rand"
+  "os"
+  "log"
 )
 //todo : to add environmental variable
+
 func parser(query string, pg int) []string{
-  url:="https://api.unsplash.com/search/photos?query="+query+"&per_page="+string(pg)+"&client_id=gK52De2Tm_dL5o1IXKa9FROBAJ-LIYqR41xBdlg3X2k"
+  cid:=os.Getenv("CID")
+  url:="https://api.unsplash.com/search/photos?query="+query+"&per_page="+string(pg)+"&client_id="+cid
   jsondatas,err:=http.Get(url)
+  if(err!=nil){
+    log.Fatal(err)
+  }
   jsondata,errs:=httputil.DumpResponse(jsondatas,true)
-  if(err!=nil || errs!=nil){
-    print("error")
+  if(errs!=nil){
+    log.Fatal(err)
   }
 	var data []map[string]interface{}
   json.Unmarshal([]byte(jsondata),&data)
@@ -32,6 +39,7 @@ func imageCreate(w http.ResponseWriter, r *http.Request){
 	for i:=0;i<n;i++{
 		for j:=0;j<n;j++{
 		problist[i][j]=rand.Intn(lsize)
+		print(problist[i][j])
 		}
 	}
 	//  3 target-img of each row in random column
