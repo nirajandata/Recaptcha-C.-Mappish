@@ -26,5 +26,5 @@ func initial(){
 }	
 
 func home(w http.ResponseWriter, r *http.Request){
-	http.ServeFile(w,r,"static/home.html")
+  http.ServeFile(w,r,"../pages/home.html")
 }
