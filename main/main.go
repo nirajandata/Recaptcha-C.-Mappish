@@ -13,6 +13,6 @@ func main(){
 	fs:=http.FileServer(http.Dir("../pages/"))
 	http.Handle("/static/",http.StripPrefix("/static/",fs))
 	http.HandleFunc("/",home)	
-	http.HandleFunc("/json",imageCreate)
+	http.HandleFunc("/jsonthrow",imageCreate)
 	http.ListenAndServe(":8080",nil)
 }
