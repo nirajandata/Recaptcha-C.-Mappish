@@ -46,7 +46,6 @@ func imageCreate(w http.ResponseWriter, r *http.Request){
 	for i:=0;i<n;i++{
 		for j:=0;j<n;j++{
 		problist[i][j]=rand.Intn(lsize)
-		print(problist[i][j])
 		}
 	}
 	//  3 target-img of each row in random column
@@ -54,22 +53,36 @@ func imageCreate(w http.ResponseWriter, r *http.Request){
 		x:=rand.Intn(n)
 		problist[i][x]=target
 	}
-	var api Images
+	var api []Images
 	targetImg:=parser(names[target],"3")
 	tcount:=0
 	for i:=0;i<n;i++ {
 		for j:=0;j<n;j++{
+		var test Images 
 		text:=names[problist[i][j]]
 		print(text)
-		if(problist[i][j]==target){
-			api.urls=append(api.urls,targetImg[tcount])
+		if problist[i][j]==target {
+		  log.Println("count is",tcount)
+		  test=Images{
+        urls: targetImg[tcount%3],
+		  }
+			api=append(api,test)
 			tcount+=1
 		} else{
-//			randomImg:=parser(text,"1")
-//			api.urls=append(api.urls,randomImg[0])
+     test=Images{
+       urls:targetImg[2],
+     } 
+			randomImg:=parser(text,"1")
+			test=Images{
+			  urls:randomImg[0],
+			}
+			log.Println(randomImg[0])
+			api=append(api,test)
 		}
+		log.Println("this is",api)
 		}
 	}
+//	log.Println(api.urls)
 	json.NewEncoder(w).Encode(api)
 }
 
