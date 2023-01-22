@@ -17,7 +17,6 @@ func cerr(err error){
 }
 func parser(query,pgg string) []string{
   cid:=string(os.Getenv("CID"))
-  print(cid)
   url:="https://api.unsplash.com/search/photos?query="+query+"&per_page="+pgg+"&client_id="+cid
   jsondatas,err:=http.Get(url)
   cerr(err)
@@ -28,18 +27,14 @@ func parser(query,pgg string) []string{
   err2:=json.Unmarshal([]byte(jsondata),&val)
   cerr(err2)
   var imglink []string
-  result:=val["results"].(map[string]interface{})
-  urls:=result["urls"].(map[string]interface{})
-  print(urls["raw"])
-  imglink=append(imglink,"test")
-  /*
-  for _,value:=range val{
-    result:=value["results"].(map[string]interface{})
-    urls:=result["urls"].(map[string]string)
-    imglink=append(imglink,urls["raw"])
-    print(imglink[0])
+  result:=val["results"].([]interface{})
+  n:=len(result)
+  var test map[string]interface{}
+  for i:=0;i<n ;i++ {
+    test=result[i].(map[string]interface{})
+    urls:=test["urls"].(map[string]interface{})
+    imglink=append(imglink,urls["raw"].(string))
   }
-  */
   return imglink
 }
 
