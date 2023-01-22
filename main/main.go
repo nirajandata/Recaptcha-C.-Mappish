@@ -9,7 +9,7 @@ type Images struct{
 }
 
 func main(){
-	initial()
+//	initial()
 	fs:=http.FileServer(http.Dir("../pages/"))
 	http.Handle("/static/",http.StripPrefix("/static/",fs))
 	http.HandleFunc("/",home)	
