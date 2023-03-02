@@ -60,11 +60,10 @@ func imageCreate(w http.ResponseWriter, r *http.Request){
 		for j:=0;j<n;j++{
 		var test Images 
 		text:=names[problist[i][j]]
-		print(text)
 		if problist[i][j]==target {
 		  log.Println("count is",tcount)
 		  test=Images{
-        urls: targetImg[tcount%3],
+        urls: targetImg[tcount],
 		  }
 			api=append(api,test)
 			tcount+=1

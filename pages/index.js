@@ -9,7 +9,7 @@ images=[]
 async funtion imgLoader(){
   const response=await fetch(url)
   const result=await response.json()
-  images=result.img
+  images=result.urls
 }
 imgLoader()
 for(let i=0;i<6;i++){
