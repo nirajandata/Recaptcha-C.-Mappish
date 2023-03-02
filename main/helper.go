@@ -56,21 +56,24 @@ func imageCreate(w http.ResponseWriter, r *http.Request){
 	var api []Images
 	targetImg:=parser(names[target],"3")
 	tcount:=0
+	log.Println(problist)
 	for i:=0;i<n;i++ {
 		for j:=0;j<n;j++{
 		var test Images 
 		text:=names[problist[i][j]]
 		if problist[i][j]==target {
-		  log.Println("count is",tcount)
+		  log.Println("break point1")
 		  test=Images{
         urls: targetImg[tcount],
 		  }
 			api=append(api,test)
 			tcount+=1
 		} else{
+		  log.Println("break point 2 ")
      test=Images{
        urls:targetImg[2],
      } 
+		  log.Println("break point 2.5 ")
 			randomImg:=parser(text,"1")
 			test=Images{
 			  urls:randomImg[0],
@@ -78,10 +81,10 @@ func imageCreate(w http.ResponseWriter, r *http.Request){
 			log.Println(randomImg[0])
 			api=append(api,test)
 		}
-		log.Println("this is",api)
+		print(i+j,"\n")
 		}
 	}
-//	log.Println(api.urls)
+//	log.Println(api)
 	json.NewEncoder(w).Encode(api)
 }
 
