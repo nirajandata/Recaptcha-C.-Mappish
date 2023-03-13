@@ -36,4 +36,5 @@ function checker(index){
     code[index]='o';
   }
 }
- 
+
+//add a websocket here for sending code to check
