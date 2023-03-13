@@ -8,3 +8,4 @@ func tester(){
     print("this is " +a[i])
   }
 }
+

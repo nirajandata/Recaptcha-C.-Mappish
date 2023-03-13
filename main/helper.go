@@ -9,12 +9,17 @@ import (
   "log"
 )
 
+type Images struct {
+  Urls  string `json:"urls"`
+}
+
 func cerr(err error){
   if(err!=nil){
     log.Fatal(err)
     os.Exit(0)
   }
 }
+
 func parser(query,pgg string) []string{
   cid:=string(os.Getenv("CID"))
   url:="https://api.unsplash.com/search/photos?query="+query+"&per_page="+pgg+"&client_id="+cid
@@ -38,53 +43,35 @@ func parser(query,pgg string) []string{
   return imglink
 }
 
-func imageCreate(w http.ResponseWriter, r *http.Request){
-	n:=3
-	problist:=[3][3]int{}
-	lsize:=len(names)
-	target:=rand.Intn(lsize)
-	for i:=0;i<n;i++{
-		for j:=0;j<n;j++{
-		problist[i][j]=rand.Intn(lsize)
-		}
-	}
-	//  3 target-img of each row in random column
-	for i:=0;i<n;i++ {
-		x:=rand.Intn(n)
-		problist[i][x]=target
-	}
-	var api []Images
-	targetImg:=parser(names[target],"3")
-	tcount:=0
-	log.Println(problist)
-	for i:=0;i<n;i++ {
-		for j:=0;j<n;j++{
-		var test Images 
-		text:=names[problist[i][j]]
-		if problist[i][j]==target {
-		  log.Println("break point1")
-		  test=Images{
-        urls: targetImg[tcount],
-		  }
-			api=append(api,test)
-			tcount+=1
-		} else{
-		  log.Println("break point 2 ")
-     test=Images{
-       urls:targetImg[2],
-     } 
-		  log.Println("break point 2.5 ")
-			randomImg:=parser(text,"1")
-			test=Images{
-			  urls:randomImg[0],
-			}
-			log.Println(randomImg[0])
-			api=append(api,test)
-		}
-		print(i+j,"\n")
-		}
-	}
-//	log.Println(api)
-	json.NewEncoder(w).Encode(api)
+func handlers(w http.ResponseWriter, r *http.Request) {
+
+  var api[] Images
+  var queryname string
+
+  n:=len(names)
+  target:=rand.Intn(n)
+
+  codes:=[]rune("oooooo")
+  for i:=0;i<6;i++ {
+    x:=rand.Intn(3) // probability of x being target (we named target as 1) is 1/3;
+    if x==1 {
+      codes[i]='x';
+    } 
+  }
+
+  for i:=0;i<6;i++ {
+    if codes[i]=='x' {
+      queryname=names[target] 
+    } else{
+      queryname=names[rand.Intn(n)]
+    }
+    tval:=parser(queryname,"1") 
+    t:=Images{
+      Urls:tval[0],
+    }
+    api=append(api,t)
+  }
+  err := json.NewEncoder(w).Encode(api)
+  cerr(err)
 }
 
