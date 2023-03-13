@@ -6,7 +6,7 @@ var url ="http://localhost:8080/getimg"
 //images=["something.jpg","dont_test_now.jpg","underdevelopment.jpg"]
 
 images=[]
-async funtion imgLoader(){
+async function imgLoader(){
   const response=await fetch(url)
   const result=await response.json()
   images=result.urls
@@ -16,7 +16,24 @@ for(let i=0;i<6;i++){
   let img=document.createElement("img")
   img.src=images[i]
   img.alt=i;
+  img.onclick=checker(i);
   checkbox.appendChild(img)
 }
 
 //var children=checkbox.children
+//
+var code="oooooo"; //x for checked , o for unchecked
+
+
+function checker(index){
+  var item=checkbox.children[index];
+  if(code[index]='o'){
+    item.style.border="5 px solid #834";
+    code[index]='x';
+  }
+  else {
+    item.style.border="none";
+    code[index]='o';
+  }
+}
+ 
