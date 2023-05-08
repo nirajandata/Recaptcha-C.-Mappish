@@ -9,26 +9,23 @@ images=[]
 async function imgLoader(){
   const response=await fetch(url)
   const result=await response.json()
-//  let resp=JSON.stringify(response)
- // resp=JSON.parse(resp)
+  //  let resp=JSON.stringify(response)
   images=result["urls"]
+  for(let i=0;i<6;i++){
+    let img=document.createElement("img")
+    img.src=images[i];
+    img.alt=i;
+    checkbox.appendChild(img)
+  }
+
+  for(let i=0;i<6;i++) {
+    checkbox.children[i].onclick=checker[i];
+  }
 }
 imgLoader()
-for(let i=0;i<6;i++){
-  let img=document.createElement("img")
-  img.src=images[i];
-  console.log(images[i])
-  img.alt=i;
-  checkbox.appendChild(img)
-}
-
-for(let i=0;i<6;i++) {
-  checkbox.children[i].onclick=checker[i];
-}
 
 //var children=checkbox.children
 //
-
 
 function checker(ind){
   var item=checkbox.children[ind];
