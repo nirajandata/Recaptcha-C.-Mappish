@@ -13,31 +13,22 @@ async function imgLoader(){
   images=result["urls"]
   for(let i=0;i<6;i++){
     let img=document.createElement("img")
-    img.src=images[i];
+    img.src=images[i]+"?&crop&w=100&h=160";
     img.alt=i;
     checkbox.appendChild(img)
   }
 
   for(let i=0;i<6;i++) {
-    checkbox.children[i].onclick=checker[i];
+    checkbox.children[i].addEventListener("click",(e)=>{
+      if(e.target.style.border!="none"){
+      e.target.style.border="none";
+      }
+      else{
+        e.target.style.border="5px solid red";
+      }
+    });
   }
 }
 imgLoader()
 
-//var children=checkbox.children
-//
 
-function checker(ind){
-  var item=checkbox.children[ind];
-  console.log(code)
-  if(code[ind]='o'){
-    item.style.border="5 px solid #834";
-    code[ind]='x';
-  }
-  else {
-    item.style.border="none";
-    code[ind]='o';
-  }
-}
-
-//add a websocket here for sending code to check

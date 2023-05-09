@@ -25,7 +25,7 @@ func cerr(err error){
 func parser(query string) string{
   cid:=string(os.Getenv("CID"))
   url:="https://api.unsplash.com/search/photos?query="+query+"&per_page=1&client_id="+cid
-  backup:="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_92x30dp.png"
+  
   jsondatas,err:=http.Get(url)
   cerr(err)
   jsondata,errs:=ioutil.ReadAll(jsondatas.Body)
@@ -37,9 +37,12 @@ func parser(query string) string{
   result:=val["results"].([]interface{})
   var imglink string
   var test map[string]interface{}
-  //todo: add config.txt for lots of backup plan
+
+  // TODO :
+  // need to handle this issue when the code is X and image fails to get data 
+
   if(len(result)==0){
-    return backup
+   return backup[rand.Intn(len(backup))]
   }
   test=result[0].(map[string]interface{})
   urls:=test["urls"].(map[string]interface{})
