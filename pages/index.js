@@ -2,11 +2,9 @@
 let socket = new WebSocket("ws://localhost:8080/echo");
 
 var checkbox=document.getElementById("checkbox")
-//todo: to fetch json api from golang server
-//don't test anything, it's in active phase of early development
+
 var url ="http://localhost:8080/handle"
 export var code="oooooo"; //x for checked , o for unchecked
-//images=["something.jpg","dont_test_now.jpg","underdevelopment.jpg"]
 
 images=[]
 async function imgLoader(){
@@ -33,9 +31,6 @@ async function imgLoader(){
   }
 }
 imgLoader()
-
-
-
 
 
 function sender(){

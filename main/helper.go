@@ -7,6 +7,8 @@ import (
   "math/rand"
   "os"
   "log"
+  "crypto/md5"
+  "encoding/hex"
 )
 
 type Images struct {
@@ -75,6 +77,17 @@ func handlers(w http.ResponseWriter, r *http.Request) {
     result:=parser(queryname) 
     api.Urls=append(api.Urls,result)
   }
+
+  hasher:=md5.New()
+  hasher.Write([]byte(string(codes)))
+  hcode:=hex.EncodeToString(hasher.Sum(nil))
+
+
+  cookie:= http.Cookie{
+    Name:"code",
+    Value:hcode, 
+  }
+  http.SetCookie(w,&cookie)
   err := json.NewEncoder(w).Encode(api)
   cerr(err)
 }

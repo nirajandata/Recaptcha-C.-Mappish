@@ -5,18 +5,8 @@ import (
 	"strings"
 	"bufio"
 	"log"	
-	"github.com/gorilla/websocket"
 	"net/http"
 )
-
-var upgrader =websocket.Upgrader{
-  CheckOrigin: func(r *http.Request) bool {
-    return true // Accepting all requests
-  },
-
-  ReadBufferSize:1024,
-  WriteBufferSize:1024,
-}
 
 var names,backup []string
 
@@ -44,20 +34,3 @@ func home(w http.ResponseWriter, r *http.Request){
   http.ServeFile(w,r,"../pages/home.html")
 }
 
-func sock(w http.ResponseWriter, r *http.Request){
-	conn,err:=upgrader.Upgrade(w,r,nil)
-	if err !=nil{
-		log.Println(err)
-		return
-	}
-
-	for{
-		messageType, value, err := conn.ReadMessage()
-		if err !=nil{
-			log.Println(err)
-		}
-		
-		//todo :validate the code with md5 hash
-
-	}
-}
