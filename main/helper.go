@@ -51,6 +51,7 @@ func parser(query string) string{
 
   // TODO :
   // need to handle this issue when the code is X and image fails to get data 
+  //easy fix is by finding the location of the string in the array "name"
 
   if(len(result)==0){
    return backup[rand.Intn(len(backup))]
