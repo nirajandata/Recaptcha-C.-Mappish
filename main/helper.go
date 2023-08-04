@@ -89,7 +89,7 @@ func handlers(w http.ResponseWriter, r *http.Request) {
 
   hcode:=hcoder(string(codes)) 
   cookie:= http.Cookie{
-    Name:"code",
+    Name:names[target],
     Value:hcode, 
   }
   http.SetCookie(w,&cookie)
@@ -100,11 +100,7 @@ func handlers(w http.ResponseWriter, r *http.Request) {
 func check(w http.ResponseWriter, r *http.Request){
 
   ucode:=r.URL.Query().Get("code")
-  rawcookie,err:=r.Cookie("code")
-  if err!=nil{
-    fmt.Fprintf(w,"<h1> Cookie not found </h1> ")
-    return
-  }
+  rawcookie:=r.Cookies()[0]
  
   cookie:=rawcookie.Value
 

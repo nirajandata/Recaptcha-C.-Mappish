@@ -12,6 +12,10 @@ async function imgLoader(){
   const result=await response.json()
 
   images=result["urls"]
+  titl=document.cookie
+  titl=titl.split("=")[0]
+  document.getElementById("tname").textContent="Select "+titl + " from the list";
+
 
   for(let i=0;i<6;i++){
     let img=document.createElement("img")
@@ -40,4 +44,4 @@ imgLoader()
 
 window.onload=function(){
   recap.action="check?code="+code;
-}
+  }
