@@ -9,6 +9,7 @@ import (
   "log"
   "crypto/md5"
   "encoding/hex"
+  "fmt"
 )
 
 type Images struct {
@@ -20,6 +21,14 @@ func cerr(err error){
     log.Fatal(err)
     os.Exit(0)
   }
+}
+
+func hcoder(codes string) string{
+  hasher:=md5.New()
+  hasher.Write([]byte(string(codes)))
+  hcode:=hex.EncodeToString(hasher.Sum(nil))
+
+  return hcode
 }
 
 //initially, it was for returning lots of image, but later i realized that it's not that fruitful 
@@ -53,7 +62,7 @@ func parser(query string) string{
 }
 
 func handlers(w http.ResponseWriter, r *http.Request) {
-
+  
   var api Images
   var queryname string
 
@@ -78,11 +87,7 @@ func handlers(w http.ResponseWriter, r *http.Request) {
     api.Urls=append(api.Urls,result)
   }
 
-  hasher:=md5.New()
-  hasher.Write([]byte(string(codes)))
-  hcode:=hex.EncodeToString(hasher.Sum(nil))
-
-
+  hcode:=hcoder(string(codes)) 
   cookie:= http.Cookie{
     Name:"code",
     Value:hcode, 
@@ -92,3 +97,20 @@ func handlers(w http.ResponseWriter, r *http.Request) {
   cerr(err)
 }
 
+func check(w http.ResponseWriter, r *http.Request){
+
+  ucode:=r.URL.Query().Get("code")
+  rawcookie,err:=r.Cookie("code")
+  if err!=nil{
+    fmt.Fprintf(w,"<h1> Cookie not found </h1> ")
+    return
+  }
+ 
+  cookie:=rawcookie.Value
+
+  if(hcoder(ucode)==cookie){
+    fmt.Fprintf(w,"<h1> Hi there, I now give you the certificate of being human </h1>")    
+  } else{
+    fmt.Fprintf(w,"<h1> bruhh, You are a bot, right???? </h1>")
+  }
+}
