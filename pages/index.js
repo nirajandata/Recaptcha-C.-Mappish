@@ -2,8 +2,7 @@ var checkbox=document.getElementById("checkbox")
 var recap=document.getElementById("recap")
 
 var url ="http://localhost:8080/handle"
-var code="oooooo"; //x for checked , o for unchecked
-
+var code=['o','o','o','o','o','o']
 images=[]
 
 async function imgLoader(){
@@ -28,7 +27,7 @@ async function imgLoader(){
     checkbox.children[i].addEventListener("click",(e)=>{
       if(e.target.style.border!="none"){
       e.target.style.border="none";
-      code[i]='0';
+      code[i]='o';
       }
       else{
         e.target.style.border="5px solid red";

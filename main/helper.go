@@ -82,6 +82,7 @@ func handlers(w http.ResponseWriter, r *http.Request) {
     if codes[i]=='x' {
       queryname=names[target] 
     } else{
+      //fix rand == target case
       queryname=names[rand.Intn(n)]
     }
     result:=parser(queryname) 
