@@ -35,8 +35,11 @@ func hcoder(codes string) string{
 //so, now it only returns 1 image url
 func parser(query string) string{
   cid:=string(os.Getenv("CID"))
-  url:="https://api.unsplash.com/search/photos?query="+query+"&per_page=1&client_id="+cid
+  url:="https://api.unsplash.com/search/photos?query="+query+"&per_page=7&client_id="+cid
   
+  count:=0
+
+  JOHN_CENA:
   jsondatas,err:=http.Get(url)
   cerr(err)
   jsondata,errs:=ioutil.ReadAll(jsondatas.Body)
@@ -54,7 +57,13 @@ func parser(query string) string{
   //easy fix is by finding the location of the string in the array "name"
 
   if(len(result)==0){
-   return backup[rand.Intn(len(backup))]
+    log.Println("wtmoo wtmoo")
+    if(count==3){
+      log.Println("bishal0x0")
+      return backup[query]  
+ } else{
+   goto JOHN_CENA //he said "never give up" 
+ }
   }
   test=result[0].(map[string]interface{})
   urls:=test["urls"].(map[string]interface{})
@@ -82,12 +91,16 @@ func handlers(w http.ResponseWriter, r *http.Request) {
     if codes[i]=='x' {
       queryname=names[target] 
     } else{
-      //fix rand == target case
-      queryname=names[rand.Intn(n)]
+      //selecting random value except for n
+      othRand:=target^rand.Intn(n-1) // i used bitwise xor so that other random value isn't the target value
+ 
+      queryname=names[othRand%n]
     }
     result:=parser(queryname) 
     api.Urls=append(api.Urls,result)
   }
+  
+  log.Println(string(codes))
 
   hcode:=hcoder(string(codes)) 
   cookie:= http.Cookie{

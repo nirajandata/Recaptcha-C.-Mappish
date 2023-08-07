@@ -1,7 +1,7 @@
 human
 cat
 horse
-animegirl
 house
 art
 mountain
+rabbit

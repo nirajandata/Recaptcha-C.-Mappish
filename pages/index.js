@@ -5,6 +5,14 @@ var url ="http://localhost:8080/handle"
 var code=['o','o','o','o','o','o']
 images=[]
 
+var codes=""
+
+
+recap.addEventListener('submit', (e)=>{
+  document.querySelector('input[type="hidden"][name="code"]').value=codes;
+  recap.action="check?code="+encodeURIComponent(codes);  
+
+});
 async function imgLoader(){
 
   const response=await fetch(url)
@@ -28,10 +36,12 @@ async function imgLoader(){
       if(e.target.style.border!="none"){
       e.target.style.border="none";
       code[i]='o';
+      codes=code.join("")
       }
       else{
         e.target.style.border="5px solid red";
         code[i]='x';
+        codes=code.join("")
         console.log(code)
         //not working here
       }
@@ -41,6 +51,9 @@ async function imgLoader(){
 imgLoader()
 
 
+/*
 window.onload=function(){
+
   recap.action="check?code="+code;
   }
+  */
